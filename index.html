@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Télécharger - Générateur d'Évaluation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #2c3e50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+        }
+
+        .video-container {
+            width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            background: #000;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+        }
+
+        .steps {
+            text-align: right;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-right: 5px solid #667eea;
+        }
+
+        .steps.fr {
+            text-align: left;
+            border-right: none;
+            border-left: 5px solid #667eea;
+            margin-top: 20px;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            color: #764ba2;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.5em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.4);
+            margin-top: 20px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(76, 175, 80, 0.6);
+        }
+
+        .download-btn:active {
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9em;
+        }
+
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(102, 126, 234, 0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .lang-switch a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        [lang="ar"] {
+            direction: rtl;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="lang-switch">
+            <a onclick="setLang('ar')">العربية</a>
+            <a onclick="setLang('fr')">Français</a>
+        </div>
+
+        <h1 id="main-title">Générateur de Tableau d'Évaluation</h1>
+        <p id="main-subtitle" class="subtitle">Système d'évaluation par critères et niveaux de maîtrise</p>
+
+        <div class="video-container">
+            <video id="video-demo" controls autoplay muted loop>
+                <source src="videodemo.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+        </div>
+
+        <div id="steps-ar" class="steps" style="display: none;">
+            <h2>🚀 خطوات التحميل والتثبيت:</h2>
+            <ul>
+                <li>1️⃣ اضغط على زر "تحميل" أدناه للحصول على ملف التثبيت (.exe).</li>
+                <li>2️⃣ افتح الملف المحمل واتبع تعليمات معالج التثبيت.</li>
+                <li>3️⃣ اتصل بالدعم الفني للحصول على رمز تفعيل النسخة.</li>
+                <li>4️⃣ ابدأ باستخدام التطبيق مباشرة من اختصار سطح المكتب.</li>
+            </ul>
+        </div>
+
+        <div id="steps-fr" class="steps fr">
+            <h2>🚀 Étapes de téléchargement et installation :</h2>
+            <ul>
+                <li>1️⃣ Cliquez sur le bouton "Télécharger" ci-dessous pour obtenir l'installeur (.exe).</li>
+                <li>2️⃣ Ouvrez le fichier téléchargé et suivez les instructions de l'assistant.</li>
+                <li>3️⃣ Contactez le support pour acquérir et activer votre licence.</li>
+                <li>4️⃣ Lancez l'application directement depuis le raccourci sur votre bureau.</li>
+            </ul>
+        </div>
+
+        <a href="https://github.com/chtouroubusiness-code/GenerateurEvaluationDistribution/releases/download/v1.0.0/GenerateurEvaluation_Installer_v1.0.0.exe"
+            class="download-btn">
+            <span id="btn-text">Télécharger</span>
+            <span>📥</span>
+        </a>
+    </div>
+
+    <div class="footer">
+        © 2024-2026 Chtourou Business. Tous droits réservés.
+    </div>
+
+    <script>
+        const content = {
+            ar: {
+                title: "📋 تطبيق إنشاء جدول التقييم",
+                subtitle: "نظام التقييم بالمعايير ومستويات الإتقان",
+                btn: "تحميل البرنامج",
+                dir: "rtl",
+                lang: "ar"
+            },
+            fr: {
+                title: "📋 Générateur de Tableau d'Évaluation",
+                subtitle: "Système d'évaluation par critères et niveaux de maîtrise",
+                btn: "Télécharger",
+                dir: "ltr",
+                lang: "fr"
+            }
+        };
+
+        function setLang(lang) {
+            const c = content[lang];
+            document.getElementById('main-title').textContent = c.title;
+            document.getElementById('main-subtitle').textContent = c.subtitle;
+            document.getElementById('btn-text').textContent = c.btn;
+
+            if (lang === 'ar') {
+                document.getElementById('steps-ar').style.display = 'block';
+                document.getElementById('steps-fr').style.display = 'none';
+            } else {
+                document.getElementById('steps-ar').style.display = 'none';
+                document.getElementById('steps-fr').style.display = 'block';
+            }
+
+            document.body.dir = c.dir;
+            document.documentElement.lang = c.lang;
+        }
+
+        // Initial set (French)
+        setLang('fr');
+    </script>
+</body>
+
+</html>
