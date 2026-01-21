@@ -1,6 +1,18 @@
+import os
+import sys
+from flask import Flask, render_template_string, send_from_directory
+
+app = Flask(__name__)
+
+# Configuration
+DOWNLOAD_URL = "https://github.com/chtouroubusiness-code/GenerateurEvaluationDistribution/releases/download/v1.0.0/GenerateurEvaluation_Installer_v1.0.0.exe"
+VIDEO_FILENAME = "videodemo.mp4"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Design and Content
+HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,7 +43,6 @@
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             text-align: center;
-            position: relative;
         }
 
         h1 {
@@ -53,7 +64,7 @@
             width: 100%;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             margin-bottom: 40px;
             background: #000;
         }
@@ -127,17 +138,19 @@
             font-size: 0.9em;
         }
 
+        /* Language Toggle Overlay */
         .lang-switch {
             position: absolute;
             top: 20px;
             right: 20px;
-            background: rgba(102, 126, 234, 0.1);
+            background: rgba(255, 255, 255, 0.2);
             padding: 5px 15px;
             border-radius: 20px;
+            backdrop-filter: blur(10px);
         }
 
         .lang-switch a {
-            color: #667eea;
+            color: white;
             text-decoration: none;
             font-weight: bold;
             margin: 0 10px;
@@ -149,65 +162,46 @@
         }
     </style>
 </head>
-
 <body>
 
-    <div class="container">
-        <div class="lang-switch">
-            <a onclick="setLang('ar')">العربية</a>
-            <a onclick="setLang('fr')">Français</a>
-        </div>
+    <div class="lang-switch">
+        <a onclick="setLang('ar')">العربية</a>
+        <a onclick="setLang('fr')">Français</a>
+    </div>
 
-        <h1 id="main-title">Générateur de Tableau d'Évaluation</h1>
-        <p id="main-subtitle" class="subtitle">Système d'évaluation par critères et niveaux de maîtrise</p>
+    <div class="container">
+        <h1 id="main-title">t</h1>
+        <p id="main-subtitle" class="subtitle">t</p>
 
         <div class="video-container">
-            <video id="video-demo" controls muted loop>
-                <source src="videodemo.mp4" type="video/mp4">
+            <video id="video-demo" controls autoplay muted loop>
+                <source src="/video" type="video/mp4">
                 Votre navigateur ne supporte pas la lecture de vidéos.
             </video>
         </div>
 
-        <div id="steps-ar" class="steps" style="display: none;">
+        <div id="steps-ar" class="steps">
             <h2>🚀 خطوات التحميل والتثبيت:</h2>
             <ul>
                 <li>1️⃣ اضغط على زر "تحميل" أدناه للحصول على ملف التثبيت (.exe).</li>
                 <li>2️⃣ افتح الملف المحمل واتبع تعليمات معالج التثبيت.</li>
-                <li>3️⃣ اتصل بالدعم لإجراء الدفع (عبر D17 على الرقم <bdi>+216 22 276 709</bdi>) وتفعيل النسخة.</li>
-                <li>4️⃣ ابدأ باستخدام التطبيق مباشرة من اختصار سطح المكتب.</li>
+                <li>3️⃣ ابدأ باستخدام التطبيق مباشرة من اختصار سطح المكتب.</li>
+                <li>4️⃣ اتصل بالدعم الفني للقيام بالدفع (عبر بطاقة D17 بالرقم 22276709) والحصول على رمز تفعيل النسخة.</li>
             </ul>
         </div>
 
-        <div id="steps-fr" class="steps fr">
+        <div id="steps-fr" class="steps fr" style="display: none;">
             <h2>🚀 Étapes de téléchargement et installation :</h2>
             <ul>
                 <li>1️⃣ Cliquez sur le bouton "Télécharger" ci-dessous pour obtenir l'installeur (.exe).</li>
                 <li>2️⃣ Ouvrez le fichier téléchargé et suivez les instructions de l'assistant.</li>
-                <li>3️⃣ Contactez le support pour faire le paiement (par D17 sur le numéro +216 22 276 709) et activer
-                    votre licence.</li>
-                <li>4️⃣ Lancez l'application directement depuis le raccourci sur votre bureau.</li>
+                <li>3️⃣ Lancez l'application directement depuis le raccourci sur votre bureau.</li>
+                <li>4️⃣ Contactez le support pour faire le payement(sur la carte D17 avec le numéro 22 276 709) et activer votre licence.</li> 
             </ul>
         </div>
 
-        <div id="examples-section" style="margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 15px;">
-            <h2 id="examples-title" style="color: #764ba2; margin-bottom: 15px;">📄 Exemples de fichiers générés</h2>
-            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                <a href="exemple_arabe.docx" download class="example-btn"
-                    style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 25px; border-radius: 10px; text-decoration: none; font-weight: bold; transition: all 0.3s;">
-                    <span>📥</span>
-                    <span id="example-ar-text">Exemple Arabe</span>
-                </a>
-                <a href="exemple_français.docx" download class="example-btn"
-                    style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 25px; border-radius: 10px; text-decoration: none; font-weight: bold; transition: all 0.3s;">
-                    <span>📥</span>
-                    <span id="example-fr-text">Exemple Français</span>
-                </a>
-            </div>
-        </div>
-
-        <a href="https://github.com/chtouroubusiness-code/GenerateurEvaluationDistribution/releases/download/v1.0.1/GenerateurEvaluation_Installer_v1.0.1.exe"
-            class="download-btn">
-            <span id="btn-text">Télécharger</span>
+        <a href="{{ download_url }}" class="download-btn">
+            <span id="btn-text">تحميل البرنامج</span>
             <span>📥</span>
         </a>
     </div>
@@ -221,20 +215,14 @@
             ar: {
                 title: "📋 تطبيق إنشاء جدول التقييم",
                 subtitle: "نظام التقييم بالمعايير ومستويات الإتقان",
-                btn: "(قد يستغرق بعض الوقت)تحميل البرنامج",
-                examplesTitle: "📄 أمثلة للملفات المُنشأة",
-                exampleAr: "مثال بالعربية",
-                exampleFr: "مثال بالفرنسية",
+                btn: "تحميل البرنامج",
                 dir: "rtl",
                 lang: "ar"
             },
             fr: {
                 title: "📋 Générateur de Tableau d'Évaluation",
                 subtitle: "Système d'évaluation par critères et niveaux de maîtrise",
-                btn: "Télécharger ( peut prendre un peu du temps )",
-                examplesTitle: "📄 Exemples de fichiers générés",
-                exampleAr: "Exemple Arabe",
-                exampleFr: "Exemple Français",
+                btn: "Télécharger",
                 dir: "ltr",
                 lang: "fr"
             }
@@ -245,10 +233,7 @@
             document.getElementById('main-title').textContent = c.title;
             document.getElementById('main-subtitle').textContent = c.subtitle;
             document.getElementById('btn-text').textContent = c.btn;
-            document.getElementById('examples-title').textContent = c.examplesTitle;
-            document.getElementById('example-ar-text').textContent = c.exampleAr;
-            document.getElementById('example-fr-text').textContent = c.exampleFr;
-
+            
             if (lang === 'ar') {
                 document.getElementById('steps-ar').style.display = 'block';
                 document.getElementById('steps-fr').style.display = 'none';
@@ -256,14 +241,26 @@
                 document.getElementById('steps-ar').style.display = 'none';
                 document.getElementById('steps-fr').style.display = 'block';
             }
-
+            
             document.body.dir = c.dir;
             document.documentElement.lang = c.lang;
         }
-
-        // Initial set (French)
+        
+        // Default based on browser or preference
         setLang('fr');
     </script>
 </body>
-
 </html>
+"""
+
+@app.route('/')
+def index():
+    return render_template_string(HTML_TEMPLATE, download_url=DOWNLOAD_URL)
+
+@app.route('/video')
+def serve_video():
+    return send_from_directory(BASE_DIR, VIDEO_FILENAME)
+
+if __name__ == '__main__':
+    print(f"Server starting on http://127.0.0.1:5000")
+    app.run(debug=True, port=5000)
